@@ -9,14 +9,16 @@ Implementaciones de los módulos **Core** del roadmap en **Go**.
 | Módulo | Descripción |
 |--------|-------------|
 | [`foundations/`](foundations/) | **Fase 0 — Fundamentos**: `hello_world`, `hello_user`, `calculator`, `numbers` |
+| [`algorithms/`](algorithms/) | **Fase 1 — Algoritmos Puros**: `naive_sort` |
 
 ---
 
-## ▶️ Siguiente / Next
+### 🌐 Otras implementaciones / Other implementations
 
-👉 Explora los módulos disponibles en [`foundations/`](foundations/).  
-👉 Explore the available modules in [`foundations/`](foundations/).
+Este proyecto también está implementado en otros lenguajes. Explora el [repositorio principal](https://github.com/yorche3/programming_languages) para ver todas las versiones.
 
 ---
+
+*[← Volver a Go](../README.md)*
 
 *🌐 [github.com/yorche3/programming_languages](https://github.com/yorche3/programming_languages) · [GitHub Pages](https://yorche3.github.io/programming_languages/)*
