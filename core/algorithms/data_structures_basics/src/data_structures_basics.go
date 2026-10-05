@@ -2,9 +2,7 @@
 //
 // Especificación: 06_Data_Structures_Basics
 //
-// Contrato del paso 4b: declara los tipos nuevos y las firmas, y deja el cuerpo
-// de cada operación en su indicador natural, sin resolver ningún caso. El
-// algoritmo es del paso 5 y la suite, del 4c.
+// Implementación del contrato: tipos nuevos, firmas y operaciones resueltas.
 //
 // Indicadores:
 //   - el enlace ausente de `Node` es `nil`: solo `Node` devuelve o compara con
@@ -41,16 +39,17 @@ func NewNode(v int) *Node {
 
 // Value returns the node's value (get_value).
 func (n *Node) Value() int {
-	return -1
+	return n.value
 }
 
 // Next returns the linked node, or nil when the link is absent (get_next).
 func (n *Node) Next() *Node {
-	return nil
+	return n.next
 }
 
 // SetNext updates the node's link (set_next).
 func (n *Node) SetNext(next *Node) {
+	n.next = next
 }
 
 // ---------------------------------------------------------------------------
@@ -68,31 +67,75 @@ type LinkedList struct {
 
 // Head returns the head value, or -1 when the list is empty (get_head).
 func (l *LinkedList) Head() int {
-	return -1
+	if l.IsEmpty() {
+		return -1
+	}
+	return l.head.Value()
 }
 
 // InsertHead adds v at the front of the list (insert_head). O(1).
 func (l *LinkedList) InsertHead(v int) {
+	newNode := NewNode(v)
+	newNode.SetNext(l.head)
+	l.head = newNode
+	if l.tail == nil {
+		l.tail = newNode
+	}
+	l.count++
 }
 
 // InsertTail adds v at the end of the list (insert_tail). O(1).
 func (l *LinkedList) InsertTail(v int) {
+	newNode := NewNode(v)
+	if l.tail != nil {
+		l.tail.SetNext(newNode)
+	}
+	l.tail = newNode
+	if l.head == nil {
+		l.head = newNode
+	}
+	l.count++
 }
 
 // Remove deletes the first occurrence of v (delete); it returns true when a node
 // was removed and false when v is absent.
 func (l *LinkedList) Remove(v int) bool {
+	if l.IsEmpty() {
+		return false
+	}
+	if l.head.Value() == v {
+		l.head = l.head.Next()
+		if l.head == nil {
+			l.tail = nil
+		}
+		l.count--
+		return true
+	}
+	prev := l.head
+	curr := l.head.Next()
+	for curr != nil {
+		if curr.Value() == v {
+			prev.SetNext(curr.Next())
+			if curr == l.tail {
+				l.tail = prev
+			}
+			l.count--
+			return true
+		}
+		prev = curr
+		curr = curr.Next()
+	}
 	return false
 }
 
 // IsEmpty reports whether the list contains no nodes (is_empty).
 func (l *LinkedList) IsEmpty() bool {
-	return false
+	return l.count == 0
 }
 
 // Len returns the number of nodes in the list (size).
 func (l *LinkedList) Len() int {
-	return 0
+	return l.count
 }
 
 // ---------------------------------------------------------------------------
@@ -109,27 +152,40 @@ type Stack struct {
 
 // Push adds v on top of the stack (push). O(1).
 func (s *Stack) Push(v int) {
+	newNode := NewNode(v)
+	newNode.SetNext(s.top)
+	s.top = newNode
+	s.count++
 }
 
 // Pop removes and returns the top value, or -1 when the stack is empty (pop).
 func (s *Stack) Pop() int {
-	return -1
+	if s.IsEmpty() {
+		return -1
+	}
+	value := s.top.Value()
+	s.top = s.top.Next()
+	s.count--
+	return value
 }
 
 // Peek returns the top value without removing it, or -1 when the stack is empty
 // (peek).
 func (s *Stack) Peek() int {
-	return -1
+	if s.IsEmpty() {
+		return -1
+	}
+	return s.top.Value()
 }
 
 // IsEmpty reports whether the stack contains no nodes (is_empty).
 func (s *Stack) IsEmpty() bool {
-	return false
+	return s.count == 0
 }
 
 // Len returns the number of nodes in the stack (size).
 func (s *Stack) Len() int {
-	return 0
+	return s.count
 }
 
 // ---------------------------------------------------------------------------
@@ -147,26 +203,47 @@ type Queue struct {
 
 // Enqueue adds v at the rear of the queue (enqueue). O(1).
 func (q *Queue) Enqueue(v int) {
+	newNode := NewNode(v)
+	if q.rear != nil {
+		q.rear.SetNext(newNode)
+	}
+	q.rear = newNode
+	if q.front == nil {
+		q.front = newNode
+	}
+	q.count++
 }
 
 // Dequeue removes and returns the front value, or -1 when the queue is empty
 // (dequeue).
 func (q *Queue) Dequeue() int {
-	return -1
+	if q.IsEmpty() {
+		return -1
+	}
+	value := q.front.Value()
+	q.front = q.front.Next()
+	if q.front == nil {
+		q.rear = nil
+	}
+	q.count--
+	return value
 }
 
 // Peek returns the front value without removing it, or -1 when the queue is
 // empty (peek).
 func (q *Queue) Peek() int {
-	return -1
+	if q.IsEmpty() {
+		return -1
+	}
+	return q.front.Value()
 }
 
 // IsEmpty reports whether the queue contains no nodes (is_empty).
 func (q *Queue) IsEmpty() bool {
-	return false
+	return q.count == 0
 }
 
 // Len returns the number of nodes in the queue (size).
 func (q *Queue) Len() int {
-	return 0
+	return q.count
 }
