@@ -11,6 +11,7 @@ Los módulos de esta fase trabajan sobre slices (`[]int`), que **sí admiten el 
 | Módulo | Especificación | Enfoque | Tests | Estado |
 |--------|---------------|---------|:-----:|:------:|
 | [`naive_sort/`](naive_sort/) | [05_Naive_Sort](https://yorche3.github.io/programming_languages/core/algorithms/05_Naive_Sort/) | `go test` + `testify` | 3 | ✅ |
+| [`data_structures_basics/`](data_structures_basics/) | [06_Data_Structures_Basics](https://yorche3.github.io/programming_languages/core/algorithms/06_Data_Structures_Basics/) | `go test` (biblioteca estándar) | 4 | ✅ |
 
 ---
 
@@ -25,6 +26,13 @@ algorithms/
     │   └── naive_sort.go           # SelectionSort, BubbleSort, InsertionSort
     ├── tests/
     │   └── naive_sort_test.go      # 3 tests × (7 casos + caso nulo)
+    └── README.md
+└── data_structures_basics/         # 06_Data_Structures_Basics
+    ├── go.mod
+    ├── src/
+    │   └── data_structures_basics.go   # Node, LinkedList, Stack, Queue
+    ├── tests/
+    │   └── data_structures_basics_test.go  # TestNode, TestLinkedList, TestStack, TestQueue
     └── README.md
 ```
 
@@ -53,6 +61,11 @@ algorithms/
 ```bash
 # Naive Sort Tests
 cd naive_sort
+go vet ./...
+go test ./... -v
+
+# Data Structures Basics Tests
+cd ../data_structures_basics
 go vet ./...
 go test ./... -v
 ```

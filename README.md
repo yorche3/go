@@ -9,7 +9,7 @@ Proyectos en **Go**, con gestión de dependencias mediante **Go Modules** y el f
 | Módulo | Descripción |
 |--------|-------------|
 | [`core/foundations/`](core/foundations/) | **Fase 0 — Fundamentos**: `hello_world`, `hello_user`, `calculator`, `numbers` |
-| [`core/algorithms/`](core/algorithms/) | **Fase 1 — Algoritmos Puros**: `naive_sort` |
+| [`core/algorithms/`](core/algorithms/) | **Fase 1 — Algoritmos Puros**: `naive_sort`, `data_structures_basics` |
 
 ---
 
@@ -34,6 +34,10 @@ go test ./tests/ -v
 
 # Naive Sort Tests
 cd core/algorithms/naive_sort
+go test ./... -v
+
+# Data Structures Basics Tests
+cd core/algorithms/data_structures_basics
 go test ./... -v
 ```
 
