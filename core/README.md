@@ -9,7 +9,7 @@ Implementaciones de los módulos **Core** del roadmap en **Go**.
 | Módulo | Descripción |
 |--------|-------------|
 | [`foundations/`](foundations/) | **Fase 0 — Fundamentos**: `hello_world`, `hello_user`, `calculator`, `numbers` |
-| [`algorithms/`](algorithms/) | **Fase 1 — Algoritmos Puros**: `naive_sort`, `data_structures_basics` |
+| [`algorithms/`](algorithms/) | **Fase 1 — Algoritmos Puros**: `naive_sort`, `data_structures_basics`, `data_structures_advanced` |
 
 ---
 

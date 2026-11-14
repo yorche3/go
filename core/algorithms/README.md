@@ -12,6 +12,7 @@ Los módulos de esta fase trabajan sobre slices (`[]int`), que **sí admiten el 
 |--------|---------------|---------|:-----:|:------:|
 | [`naive_sort/`](naive_sort/) | [05_Naive_Sort](https://yorche3.github.io/programming_languages/core/algorithms/05_Naive_Sort/) | `go test` + `testify` | 3 | ✅ |
 | [`data_structures_basics/`](data_structures_basics/) | [06_Data_Structures_Basics](https://yorche3.github.io/programming_languages/core/algorithms/06_Data_Structures_Basics/) | `go test` (biblioteca estándar) | 4 | ✅ |
+| [`data_structures_advanced/`](data_structures_advanced/) | [07_Data_Structures_Advanced](https://yorche3.github.io/programming_languages/core/algorithms/07_Data_Structures_Advanced/) | `go test` (biblioteca estándar) | 3 | ✅ |
 
 ---
 
@@ -19,20 +20,27 @@ Los módulos de esta fase trabajan sobre slices (`[]int`), que **sí admiten el 
 
 ```text
 algorithms/
-└── naive_sort/                     # 05_Naive_Sort
+├── naive_sort/                     # 05_Naive_Sort
+│   ├── go.mod
+│   ├── go.sum
+│   ├── src/
+│   │   └── naive_sort.go           # SelectionSort, BubbleSort, InsertionSort
+│   ├── tests/
+│   │   └── naive_sort_test.go      # 3 tests × (7 casos + caso nulo)
+│   └── README.md
+├── data_structures_basics/         # 06_Data_Structures_Basics
+│   ├── go.mod
+│   ├── src/
+│   │   └── data_structures_basics.go   # Node, LinkedList, Stack, Queue
+│   ├── tests/
+│   │   └── data_structures_basics_test.go  # TestNode, TestLinkedList, TestStack, TestQueue
+│   └── README.md
+└── data_structures_advanced/       # 07_Data_Structures_Advanced
     ├── go.mod
-    ├── go.sum
     ├── src/
-    │   └── naive_sort.go           # SelectionSort, BubbleSort, InsertionSort
+    │   └── data_structures_advanced.go # TreeNode, BinaryTree, GraphNode, Graph
     ├── tests/
-    │   └── naive_sort_test.go      # 3 tests × (7 casos + caso nulo)
-    └── README.md
-└── data_structures_basics/         # 06_Data_Structures_Basics
-    ├── go.mod
-    ├── src/
-    │   └── data_structures_basics.go   # Node, LinkedList, Stack, Queue
-    ├── tests/
-    │   └── data_structures_basics_test.go  # TestNode, TestLinkedList, TestStack, TestQueue
+    │   └── data_structures_advanced_test.go # TestTreeNode, TestBinaryTree, TestGraph
     └── README.md
 ```
 
@@ -66,6 +74,11 @@ go test ./... -v
 
 # Data Structures Basics Tests
 cd ../data_structures_basics
+go vet ./...
+go test ./... -v
+
+# Data Structures Advanced Tests
+cd ../data_structures_advanced
 go vet ./...
 go test ./... -v
 ```
