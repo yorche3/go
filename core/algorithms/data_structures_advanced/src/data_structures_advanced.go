@@ -1,9 +1,7 @@
 // data_structures_advanced.go — Árbol binario de búsqueda y grafo dirigido
 //
-// Especificación: 07_Data_Structures_Advanced
-//
-// Andamiaje del módulo: los tipos y operaciones se declaran en el encargo
-// contract_stub (paso 4b).
+// Especificación: 07_Data_Structures_Advanced. Vecinos ausentes: nil; vértice
+// aislado: slice vacío.
 package src
 
 type TreeNode struct {
@@ -13,25 +11,27 @@ type TreeNode struct {
 }
 
 func NewTreeNode(value int) *TreeNode {
-	return nil
+	return &TreeNode{value: value}
 }
 
 func (n *TreeNode) Value() int {
-	return 0
+	return n.value
 }
 
 func (n *TreeNode) Left() *TreeNode {
-	return nil
+	return n.left
 }
 
 func (n *TreeNode) Right() *TreeNode {
-	return nil
+	return n.right
 }
 
 func (n *TreeNode) SetLeft(node *TreeNode) {
+	n.left = node
 }
 
 func (n *TreeNode) SetRight(node *TreeNode) {
+	n.right = node
 }
 
 type BinaryTree struct {
@@ -40,23 +40,59 @@ type BinaryTree struct {
 }
 
 func NewBinaryTree() *BinaryTree {
-	return nil
+	return &BinaryTree{}
 }
 
 func (t *BinaryTree) Insert(value int) bool {
-	return false
+	if t.root == nil {
+		t.root = NewTreeNode(value)
+		t.count++
+		return true
+	}
+	current := t.root
+	for {
+		switch {
+		case value == current.value:
+			return true
+		case value < current.value:
+			if current.left == nil {
+				current.left = NewTreeNode(value)
+				t.count++
+				return true
+			}
+			current = current.left
+		default:
+			if current.right == nil {
+				current.right = NewTreeNode(value)
+				t.count++
+				return true
+			}
+			current = current.right
+		}
+	}
 }
 
 func (t *BinaryTree) Contains(value int) bool {
+	current := t.root
+	for current != nil {
+		switch {
+		case value == current.value:
+			return true
+		case value < current.value:
+			current = current.left
+		default:
+			current = current.right
+		}
+	}
 	return false
 }
 
 func (t *BinaryTree) IsEmpty() bool {
-	return false
+	return t.count == 0
 }
 
 func (t *BinaryTree) Len() int {
-	return 0
+	return t.count
 }
 
 type GraphNode struct {
@@ -71,7 +107,7 @@ type neighborNode struct {
 }
 
 func newGraphNode(label int) *GraphNode {
-	return nil
+	return &GraphNode{value: label}
 }
 
 type Graph struct {
@@ -81,33 +117,88 @@ type Graph struct {
 }
 
 func NewGraph() *Graph {
+	return &Graph{}
+}
+
+func (g *Graph) FindVertex(label int) *GraphNode {
+	for n := g.vertices; n != nil; n = n.nextVertex {
+		if n.value == label {
+			return n
+		}
+	}
 	return nil
 }
 
 func (g *Graph) AddVertex(label int) bool {
-	return false
+	if g.FindVertex(label) != nil {
+		return true
+	}
+	newVertex := newGraphNode(label)
+	newVertex.nextVertex = g.vertices
+	g.vertices = newVertex
+	g.vertexCount++
+	return true
+}
+
+func insertNeighbor(head *neighborNode, label int) *neighborNode {
+	if head == nil || label < head.label {
+		return &neighborNode{label: label, next: head}
+	}
+	head.next = insertNeighbor(head.next, label)
+	return head
 }
 
 func (g *Graph) AddEdge(u, v int) bool {
-	return false
+	uVertex := g.FindVertex(u)
+	if uVertex == nil || g.FindVertex(v) == nil {
+		return false
+	}
+	for n := uVertex.neighbors; n != nil; n = n.next {
+		if n.label == v {
+			return true
+		}
+	}
+	uVertex.neighbors = insertNeighbor(uVertex.neighbors, v)
+	g.edgeCount++
+	return true
 }
 
 func (g *Graph) HasEdge(u, v int) bool {
+	uVertex := g.FindVertex(u)
+	if uVertex == nil {
+		return false
+	}
+	for n := uVertex.neighbors; n != nil; n = n.next {
+		if n.label == v {
+			return true
+		}
+	}
 	return false
 }
 
 func (g *Graph) Neighbors(u int) []int {
-	return nil
+	uVertex := g.FindVertex(u)
+	if uVertex == nil {
+		return nil
+	}
+	var neighbors []int
+	for n := uVertex.neighbors; n != nil; n = n.next {
+		neighbors = append(neighbors, n.label)
+	}
+	if neighbors == nil {
+		neighbors = []int{}
+	}
+	return neighbors
 }
 
 func (g *Graph) IsEmpty() bool {
-	return false
+	return g.vertexCount == 0
 }
 
 func (g *Graph) VertexCount() int {
-	return 0
+	return g.vertexCount
 }
 
 func (g *Graph) EdgeCount() int {
-	return 0
+	return g.edgeCount
 }
